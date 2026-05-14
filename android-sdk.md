@@ -44,3 +44,19 @@ export GRADLE_HOME=/opt/gradle
 export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk/android-ndk-r26b
 export PATH=$PATH:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools:${ANDROID_NDK_HOME}:${GRADLE_HOME}/gradle-8.5/bin
 ```
+
+### build make
+Build debug APK (offline)
+
+```sh evaluate
+if [ ! -f "settings.gradle" ] && [ ! -f "settings.gradle.kts" ]; then
+    echo "error: no settings.gradle found — run this from an Android project root"
+fi
+
+gradle assembleDebug --offline
+```
+
+### deploy
+```sh evaluate
+adb install --user 0 -r ./app/build/outputs/apk/debug/app-debug.apk
+```

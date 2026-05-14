@@ -18,6 +18,8 @@ ${NPMGLOBAL}/bin/claude
 
 ### proxied
 ```sh evaluate
+export CLAUDE_CODE_USE_VERTEX=1
+export CLOUD_ML_REGION=global
 p ${CLAUDE_PROXY}
 app ${APPNAME} run
 ```
