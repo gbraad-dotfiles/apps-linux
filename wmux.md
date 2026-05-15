@@ -66,7 +66,7 @@ journalctl --user -u ${SVCNAME} -f
 
 ### run-service run
 ```sh
-/usr/local/bin/wmux --tls
+${LOCALBIN}/wmux --tls
 ```
 
 ### screen
@@ -78,12 +78,5 @@ screen app ${APPNAME} run
 ```sh
 ARCH=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')
 curl -fsSL "https://github.com/gbraad-dotfiles/wmux/releases/latest/download/wmux-${ARCH}" \
-   | sudo install -m 0755 /dev/stdin /usr/local/bin/wmux
-```
-
-### user-install
-```sh
-ARCH=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')
-curl -fsSL "https://github.com/gbraad-dotfiles/wmux/releases/latest/download/wmux-${ARCH}" \
-   | install -m 0755 /dev/stdin ${HOME}/.local/bin/wmux
+   | install -m 0755 /dev/stdin ${LOCALBIN}i/wmux
 ```
