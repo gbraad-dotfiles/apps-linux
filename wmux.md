@@ -2,11 +2,24 @@
 
 ### info
 
+
+### config
+```ini
+[wmux]
+   session=screen
+```
+
 ### vars
 ```sh
 APPNAME=wmux
 APPTITLE="Wmux - web-based tmux controller"
 SVCNAME="dotfiles-apps-${APPNAME}"
+
+WMUX_CONFIG_DIR="${HOME}/.wmux"
+mkdir -p "${WMUX_CONFIG_DIR}"
+
+WMUX_CERT_FILE="${WMUX_CONFIG_DIR}/wmux.crt"
+WMUX_KEY_FILE="${WMUX_CONFIG_DIR}/wmux.key"
 ```
 
 ### install
@@ -78,5 +91,27 @@ screen app ${APPNAME} run
 ```sh
 ARCH=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')
 curl -fsSL "https://github.com/gbraad-dotfiles/wmux/releases/latest/download/wmux-${ARCH}" \
-   | install -m 0755 /dev/stdin ${LOCALBIN}i/wmux
+   | install -m 0755 /dev/stdin ${LOCALBIN}/wmux
+app ${APPNAME} certgen
 ```
+
+### certgen
+```sh
+DAYS=3650
+
+# Get Tailscale IP if available
+WMUX_IP=$(tailscale ip --4)
+
+if [ -z "$WMUX_IP" ]; then
+    echo "Warning: Tailscale IP not found, using localhost"
+    WMUX_IP="127.0.0.1"
+fi
+
+openssl req -x509 -newkey rsa:4096 -nodes \
+    -keyout "$WMUX_KEY_FILE" \
+    -out "$WMUX_CERT_FILE" \
+    -days $DAYS \
+    -subj "/CN=wmux" \
+    -addext "subjectAltName=IP:$WMUX_IP,IP:127.0.0.1,DNS:localhost"
+```
+
