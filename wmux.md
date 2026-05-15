@@ -79,7 +79,7 @@ journalctl --user -u ${SVCNAME} -f
 
 ### run-service run
 ```sh
-${LOCALBIN}/wmux --tls
+${LOCALBIN}/wmux --tls --bind-all
 ```
 
 ### screen
