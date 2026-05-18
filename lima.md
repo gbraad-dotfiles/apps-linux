@@ -1,5 +1,10 @@
 # Lima
 
+### check
+```sh
+command -v limactl >/dev/null 2>&1
+```
+
 ### install
 ```sh
 VERSION=$(curl -fsSL https://api.github.com/repos/lima-vm/lima/releases/latest | jq -r .tag_name)
