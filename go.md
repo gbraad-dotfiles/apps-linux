@@ -10,6 +10,10 @@
 ### vars
 ```sh
 PROJECT_PATH=$(pwd)
+if [[ "${PROJECT_PATH}" != "${HOME}/Projects"* ]]; then
+  echo "error: must be run from within ~/Projects/" >&2
+  return 1
+fi
 ```
 
 ### start
