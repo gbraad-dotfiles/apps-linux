@@ -32,10 +32,20 @@ devenv ${GO_NAME} remove
 ```
 
 ### build
-One-shot ephemeral build.
+One-shot ephemeral build for local arch.
 
 ```sh
 devenv ${GO_FROM} ephemeral -c "cd ${PROJECT_PATH} && go build -buildvcs=false ./..."
+```
+
+### amd-build
+```sh
+devenv ${GO_FROM} ephemeral -c "cd ${PROJECT_PATH} && GOARCH=amd64 GOOS=linux go build -buildvcs=false ./..."
+```
+
+### arm-build
+```sh
+devenv ${GO_FROM} ephemeral -c "cd ${PROJECT_PATH} && GOARCH=arm64 GOOS=linux go build -buildvcs=false ./..."
 ```
 
 ### test
