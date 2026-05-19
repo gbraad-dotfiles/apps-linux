@@ -1,6 +1,6 @@
 # K3s
 
 ### install
-```sh
+```sh evaluate
 curl -sfL https://get.k3s.io | sh - 
 ```

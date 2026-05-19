@@ -48,8 +48,13 @@ devenv ${GO_FROM} ephemeral -c "cd ${PROJECT_PATH} && GOARCH=amd64 GOOS=linux go
 devenv ${GO_FROM} ephemeral -c "cd ${PROJECT_PATH} && GOARCH=arm64 GOOS=linux go build -buildvcs=false ./..."
 ```
 
-### test
+### windows-build
 ```sh
+devenv ${GO_FROM} ephemeral -c "cd ${PROJECT_PATH} && GOARCH=amd64 GOOS=windows go build -buildvcs=false ./..."
+```
+
+### test
+```sh evaluate
 devenv ${GO_FROM} ephemeral -c "cd ${PROJECT_PATH} && go test ./..."
 ```
 
