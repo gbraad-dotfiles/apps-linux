@@ -65,7 +65,8 @@ Install the official Tailscale Kubernetes operator. Pods with Tailscale sidecars
 get their own Tailscale IP — no port-forwarding needed.
 
 ```sh
-kubectl apply -f https://github.com/tailscale/tailscale-kubernetes-operator/releases/latest/download/operator.yaml
+KUBECONFIG=${KUBECONFIG:-${HOME}/.kube/config}
+KUBECONFIG=${KUBECONFIG} kubectl apply -f https://github.com/tailscale/tailscale-kubernetes-operator/releases/latest/download/operator.yaml
 ```
 
 ### secret-tailscale-operator
@@ -73,7 +74,8 @@ Create the OAuth client secret the operator uses to auth new pods.
 Replace CLIENT_ID and CLIENT_SECRET with values from https://login.tailscale.com/admin/settings/oauth
 
 ```sh
-kubectl create secret generic tailscale-operator-oauth \
+KUBECONFIG=${KUBECONFIG:-${HOME}/.kube/config}
+KUBECONFIG=${KUBECONFIG} kubectl create secret generic tailscale-operator-oauth \
   --from-literal=client_id=CLIENT_ID \
   --from-literal=client_secret=CLIENT_SECRET \
   -n tailscale
@@ -84,10 +86,11 @@ Create a k8s Secret with the Tailscale auth key for pods that run tailscale inte
 Reads from `TAILSCALE_AUTHKEY` env var or `secrets get tailscale_authkey`.
 
 ```sh
+KUBECONFIG=${KUBECONFIG:-${HOME}/.kube/config}
 TAILSCALE_AUTHKEY=${TAILSCALE_AUTHKEY:-$(secrets get tailscale_authkey)}
-kubectl create secret generic tailscale-authkey \
+KUBECONFIG=${KUBECONFIG} kubectl create secret generic tailscale-authkey \
   --from-literal=TS_AUTHKEY="${TAILSCALE_AUTHKEY}" \
-  --dry-run=client -o yaml | kubectl apply -f -
+  --dry-run=client -o yaml | KUBECONFIG=${KUBECONFIG} kubectl apply -f -
 ```
 
 ### status
@@ -97,7 +100,8 @@ sudo systemctl status k3s
 
 ### nodes
 ```sh
-kubectl get nodes -o wide
+KUBECONFIG=${KUBECONFIG:-${HOME}/.kube/config}
+KUBECONFIG=${KUBECONFIG} kubectl get nodes -o wide
 ```
 
 ### start
