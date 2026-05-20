@@ -123,6 +123,12 @@ run_devpods() {
   [[ -z "$chosen_target" ]] && return
   target_prefix=$(echo "$chosen_target" | awk '{print $1}')
 
+  # status: re-prompt for the actual action to perform on the selected pod
+  if [[ "$chosen_command" == "status" ]]; then
+    chosen_command=$(printf "%s\n" undeploy shell exec logs tsconnect | fzf --prompt="Action on ${target_prefix}> ")
+    [[ -z "$chosen_command" ]] && return
+  fi
+
   if [[ "$chosen_command" == "exec" ]]; then
     exec_cmd=$(echo | fzf --prompt="Command to exec> " --print-query --phony | head -n1)
     [[ -z "$exec_cmd" ]] && exec_cmd="bash"
