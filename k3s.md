@@ -184,16 +184,15 @@ CTX="k3s-$(hostname -s)"
 OUT="${HOME}/.kube/${CTX}.yaml"
 mkdir -p ~/.kube
 
-# Build a properly named kubeconfig using kubectl
-sudo KUBECONFIG=/etc/rancher/k3s/k3s.yaml kubectl config view --raw \
-  | sed "s|127.0.0.1|${TS_IP}|g; s|https://localhost|https://${TS_IP}|g" \
-  > /tmp/k3s-raw.yaml
-
-KUBECONFIG=/tmp/k3s-raw.yaml kubectl config rename-context default "${CTX}" 2>/dev/null || true
-KUBECONFIG=/tmp/k3s-raw.yaml kubectl config set-cluster "${CTX}" \
-  --server="https://${TS_IP}:6443" &>/dev/null
-KUBECONFIG=/tmp/k3s-raw.yaml kubectl config view --raw > "${OUT}"
-rm -f /tmp/k3s-raw.yaml
+sudo cat /etc/rancher/k3s/k3s.yaml \
+  | sed \
+      -e "s|https://127.0.0.1:6443|https://${TS_IP}:6443|g" \
+      -e "s|https://localhost:6443|https://${TS_IP}:6443|g" \
+      -e "s|name: default|name: ${CTX}|g" \
+      -e "s|cluster: default|cluster: ${CTX}|g" \
+      -e "s|user: default|user: ${CTX}|g" \
+      -e "s|current-context: default|current-context: ${CTX}|g" \
+  > "${OUT}"
 chmod 600 "${OUT}"
 
 echo "Saved: ${OUT}  (context: ${CTX})"
