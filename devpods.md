@@ -4,7 +4,7 @@
 ### shared
 ```sh
 devpods_commands=(
-  deploy from undeploy status logs shell exec tsconnect switch
+  deploy from undeploy status logs shell exec screen apps dot dotfiles playbook tsconnect switch
 )
 
 devpods_prefixes() {
@@ -125,7 +125,7 @@ run_devpods() {
 
   # status: re-prompt for the actual action to perform on the selected pod
   if [[ "$chosen_command" == "status" ]]; then
-    chosen_command=$(printf "%s\n" undeploy shell exec logs tsconnect | fzf --prompt="Action on ${target_prefix}> ")
+    chosen_command=$(printf "%s\n" undeploy shell exec screen apps dot dotfiles playbook logs tsconnect | fzf --prompt="Action on ${target_prefix}> ")
     [[ -z "$chosen_command" ]] && return
   fi
 
