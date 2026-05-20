@@ -135,3 +135,44 @@ sudo journalctl -u k3s -f
 /usr/local/bin/k3s-uninstall.sh
 ```
 
+### tls-san-tailscale
+```sh
+# Add Tailscale IP to k3s TLS SANs so remote kubectl works over Tailscale.
+# Detects the Tailscale IP automatically via `tailscale ip`.
+TS_IP=$(tailscale ip -4 2>/dev/null)
+if [[ -z "$TS_IP" ]]; then
+  echo "error: could not detect Tailscale IP — is tailscale running?"
+  return 1
+fi
+echo "Tailscale IP: ${TS_IP}"
+
+# Write tls-san config
+sudo mkdir -p /etc/rancher/k3s
+cat <<EOF | sudo tee /etc/rancher/k3s/config.yaml
+tls-san:
+  - "${TS_IP}"
+EOF
+
+# Remove old server certs so k3s regenerates them on next start
+sudo rm -f /var/lib/rancher/k3s/server/tls/server-ca.crt
+sudo rm -f /var/lib/rancher/k3s/server/tls/server-ca.key
+sudo rm -f /var/lib/rancher/k3s/server/tls/serving-kube-apiserver.crt
+sudo rm -f /var/lib/rancher/k3s/server/tls/serving-kube-apiserver.key
+
+sudo systemctl restart k3s
+echo "k3s restarted — new cert will include ${TS_IP}"
+echo "Update your kubeconfig server URL to: https://${TS_IP}:6443"
+```
+
+### kubeconfig-remote
+```sh
+# Print a kubeconfig suitable for remote access over Tailscale.
+# Run this on the k3s host; copy output to remote ~/.kube/config.
+TS_IP=$(tailscale ip -4 2>/dev/null)
+if [[ -z "$TS_IP" ]]; then
+  echo "error: could not detect Tailscale IP"
+  return 1
+fi
+sudo cat /etc/rancher/k3s/k3s.yaml | sed "s|127.0.0.1|${TS_IP}|g; s|https://localhost|https://${TS_IP}|g"
+```
+
