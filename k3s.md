@@ -169,14 +169,39 @@ echo "Update your kubeconfig server URL to: https://${TS_IP}:6443"
 ```
 
 ### kubeconfig-remote
+Save a kubeconfig for this k3s cluster (named after the hostname) to
+`~/.kube/k3s-<hostname>.yaml`. Run on the k3s host, then copy the file to the
+remote machine and merge it — or point `KUBECONFIG` at it.
+On the remote, use `dev3s switch` to pick this context.
+
 ```sh
-# Print a kubeconfig suitable for remote access over Tailscale.
-# Run this on the k3s host; copy output to remote ~/.kube/config.
 TS_IP=$(tailscale ip -4 2>/dev/null)
 if [[ -z "$TS_IP" ]]; then
-  echo "error: could not detect Tailscale IP"
+  echo "error: could not detect Tailscale IP — is tailscale running?"
   return 1
 fi
-sudo cat /etc/rancher/k3s/k3s.yaml | sed "s|127.0.0.1|${TS_IP}|g; s|https://localhost|https://${TS_IP}|g"
+CTX="k3s-$(hostname -s)"
+OUT="${HOME}/.kube/${CTX}.yaml"
+mkdir -p ~/.kube
+
+# Build a properly named kubeconfig using kubectl
+sudo KUBECONFIG=/etc/rancher/k3s/k3s.yaml kubectl config view --raw \
+  | sed "s|127.0.0.1|${TS_IP}|g; s|https://localhost|https://${TS_IP}|g" \
+  > /tmp/k3s-raw.yaml
+
+KUBECONFIG=/tmp/k3s-raw.yaml kubectl config rename-context default "${CTX}" 2>/dev/null || true
+KUBECONFIG=/tmp/k3s-raw.yaml kubectl config set-cluster "${CTX}" \
+  --server="https://${TS_IP}:6443" &>/dev/null
+KUBECONFIG=/tmp/k3s-raw.yaml kubectl config view --raw > "${OUT}"
+rm -f /tmp/k3s-raw.yaml
+chmod 600 "${OUT}"
+
+echo "Saved: ${OUT}  (context: ${CTX})"
+echo ""
+echo "On the remote machine:"
+echo "  scp $(hostname -s):${OUT} ~/.kube/${CTX}.yaml"
+echo "  KUBECONFIG=~/.kube/config:~/.kube/${CTX}.yaml kubectl config view --flatten > /tmp/merged"
+echo "  mv /tmp/merged ~/.kube/config && chmod 600 ~/.kube/config"
+echo "  dev3s switch ${CTX}"
 ```
 
