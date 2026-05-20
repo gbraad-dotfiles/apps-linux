@@ -192,6 +192,7 @@ sudo cat /etc/rancher/k3s/k3s.yaml \
       -e "s|cluster: default|cluster: ${CTX}|g" \
       -e "s|user: default|user: ${CTX}|g" \
       -e "s|current-context: default|current-context: ${CTX}|g" \
+      -e "s|certificate-authority-data:.*|insecure-skip-tls-verify: true|g" \
   > "${OUT}"
 chmod 600 "${OUT}"
 
