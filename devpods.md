@@ -7,6 +7,12 @@ devpods_commands=(
   deploy from undeploy status logs shell exec screen apps dot dotfiles playbook tsconnect switch
 )
 
+_devpods_kubectl() {
+  local kube_args=()
+  [[ -n "${DEV3S_CONTEXT:-}" ]] && kube_args+=("--context=${DEV3S_CONTEXT}")
+  KUBECONFIG=${KUBECONFIG:-${HOME}/.kube/config} kubectl "${kube_args[@]}" "$@"
+}
+
 devpods_prefixes() {
   local key="images"
   local output prefixes
@@ -17,12 +23,12 @@ devpods_prefixes() {
 }
 
 devpods_targets() {
-  KUBECONFIG=${KUBECONFIG:-${HOME}/.kube/config} kubectl get pods --no-headers 2>/dev/null \
+  _devpods_kubectl get pods --no-headers 2>/dev/null \
     | awk '$1 ~ /sys$/ {sub(/sys$/, "", $1); print $1 "\t" $3 "\t" $5}'
 }
 
 devpods_running_targets() {
-  KUBECONFIG=${KUBECONFIG:-${HOME}/.kube/config} kubectl get pods --no-headers 2>/dev/null \
+  _devpods_kubectl get pods --no-headers 2>/dev/null \
     | awk '$1 ~ /sys$/ && $3 == "Running" {sub(/sys$/, "", $1); print $1 "\t" $3 "\t" $5}'
 }
 ```
@@ -108,7 +114,7 @@ run_devpods() {
   fi
 
   if [[ "$chosen_command" == "switch" ]]; then
-    ctx=$(KUBECONFIG=${KUBECONFIG:-${HOME}/.kube/config} kubectl config get-contexts --no-headers \
+    ctx=$(_devpods_kubectl config get-contexts --no-headers \
       | awk '{print $2}' | fzf --prompt="Select context> ")
     [[ -z "$ctx" ]] && return
     dev3s switch "$ctx"
