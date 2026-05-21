@@ -29,6 +29,20 @@ sudo chown $(id -u):$(id -g) ~/.kube/config
 chmod 600 ~/.kube/config
 ```
 
+### write-kubeconfig-mode
+Make k3s write its kubeconfig with group-readable permissions so users in the
+`k3s` group (or any group you choose) can read it without `sudo`.
+This persists across restarts via `/etc/rancher/k3s/config.yaml`.
+
+```sh
+sudo mkdir -p /etc/rancher/k3s
+# Append (or create) the config — preserves existing entries
+grep -q "write-kubeconfig-mode" /etc/rancher/k3s/config.yaml 2>/dev/null || \
+  echo 'write-kubeconfig-mode: "0644"' | sudo tee -a /etc/rancher/k3s/config.yaml
+sudo systemctl restart k3s
+echo "kubeconfig is now world-readable at /etc/rancher/k3s/k3s.yaml"
+```
+
 ### merge-kubeconfig
 Merge k3s config into an existing `~/.kube/config` (preserves other clusters).
 
