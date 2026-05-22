@@ -76,19 +76,19 @@ jobs:
         uses: gbraad-dotfiles/devenv-action@main
         with:
           prefix: ${{ inputs.prefix-name }}
-          command: apps codium-server service install
+          command: app codium-server service install
 
       - name: Run devenv command - start codium-server service
         uses: gbraad-dotfiles/devenv-action@main
         with:
           prefix: ${{ inputs.prefix-name }}
-          command: apps codium-server service start
+          command: app codium-server service start
 
       - name: Run devenv command - status codium-server service
         uses: gbraad-dotfiles/devenv-action@main
         with:
           prefix: ${{ inputs.prefix-name }}
-          command: apps codium-server service status
+          command: app codium-server service status
 
       - name: Wait a little
         run: |
@@ -98,11 +98,11 @@ jobs:
         uses: gbraad-dotfiles/devenv-action@main
         with:
           prefix: ${{ inputs.prefix-name }}
-          command: apps codium-server service status
+          command: app codium-server service status
 
       - name: Run devenv command - stop codium-server service
         uses: gbraad-dotfiles/devenv-action@main
         with:
           prefix: ${{ inputs.prefix-name }}
-          command: apps codium-server service stop
+          command: app codium-server service stop
 
