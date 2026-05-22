@@ -35,7 +35,7 @@ devenv ${GO_NAME} remove
 One-shot ephemeral build for local arch.
 
 ```sh
-devenv ${GO_FROM} ephemeral -c "cd ${PROJECT_PATH} && go build -buildvcs=false ./..."
+devenv ${GO_FROM} ephemeral -c "cd ${PROJECT_PATH} && ${EXTRA_ARGS} go build -buildvcs=false ./..."
 ```
 
 ### amd-build
