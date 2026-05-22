@@ -72,7 +72,7 @@ jobs:
         with: 
           appname: obsidian
           action: install
-          packager: user
+          args: user
 
       - name: Run app command - install vivaldi
         uses: gbraad-dotfiles/app-action@main
