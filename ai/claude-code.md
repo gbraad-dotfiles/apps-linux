@@ -4,15 +4,6 @@
 ```ini
 [claude]
   proxy="ndisguise"
-
-[openrouter]
-  url = "https://openrouter.ai/api"
-
-[fireworks]
-  url = "https://api.fireworks.ai/inference"
-
-[deepseek]
-  url = "https://api.deepseek.com/anthropic"
 ```
 
 ### install
@@ -27,8 +18,6 @@ ${NPMGLOBAL}/bin/claude
 
 ### proxied
 ```sh evaluate
-export CLAUDE_CODE_USE_VERTEX=1
-export CLOUD_ML_REGION=global
 p ${CLAUDE_PROXY}
 app ${APPNAME} run
 ```
