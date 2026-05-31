@@ -4,11 +4,11 @@
 ```ini
 [openrouter]
   url = "https://openrouter.ai/api"
-  key = "openrouter_key"
+  keyname = "openrouter_api_key"
 
 [deepseek]
   url = "https://api.deepseek.com/anthropic"
-  key = "deepseek_key"
+  keyname = "deepseek_api_key"
 
 [fireworks]
   url = "https://api.fireworks.ai/inference"
@@ -16,13 +16,19 @@
 
 ### openrouter
 ```sh evaluate
-export ANTHROPIC_API_KEY=$(get_secret ${OPENROUTER_KEY})
+if [[ -z "${(P)${(U)OPENROUTER_KEYNAME}}" ]]; then
+  secrets var ${OPENROUTER_KEYNAME}
+fi
+export ANTHROPIC_API_KEY="${(P)OPENROUTER_KEYNAME}"
 export ANTHROPIC_BASE_URL=${OPENROUTER_URL}
 ```
 
 ### deepseek
 ```sh evaluate
-export ANTHROPIC_API_KEY=$(get_secret ${DEEPSEEK_KEY})
+if [[ -z "${(P)${(U)DEEPSEEK_KEYNAME}}" ]]; then
+  secrets var ${DEEPSEEK_KEYNAME}
+fi
+export ANTHROPIC_API_KEY=${DEEPSEEK_API_KEY}
 export ANTHROPIC_BASE_URL=${DEEPSEEK_URL}
 ```
 
