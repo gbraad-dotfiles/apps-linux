@@ -16,19 +16,21 @@
 
 ### openrouter
 ```sh evaluate
+export ANTHROPIC_BASE_URL=${OPENROUTER_URL}
 if [[ -z "${(P)${(U)OPENROUTER_KEYNAME}}" ]]; then
   secrets var ${OPENROUTER_KEYNAME}
 fi
-export ANTHROPIC_API_KEY="${(P)OPENROUTER_KEYNAME}"
-export ANTHROPIC_BASE_URL=${OPENROUTER_URL}
+export ANTHROPIC_AUTH_TOKEN="${(P)${(U)OPENROUTER_KEYNAME}}"
+export ANTHROPIC_API_KEY="" # Important: Must be explicitly empty
+
 ```
 
 ### deepseek
 ```sh evaluate
+export ANTHROPIC_BASE_URL=${DEEPSEEK_URL}
 if [[ -z "${(P)${(U)DEEPSEEK_KEYNAME}}" ]]; then
   secrets var ${DEEPSEEK_KEYNAME}
 fi
-export ANTHROPIC_API_KEY=${DEEPSEEK_API_KEY}
-export ANTHROPIC_BASE_URL=${DEEPSEEK_URL}
+export ANTHROPIC_API_KEY=${(P)${(U)DEEPSEEK_API_KEY}}
 ```
 
