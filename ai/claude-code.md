@@ -20,16 +20,34 @@ ${NPMGLOBAL}/bin/claude --model ${ANTHROPIC_MODEL}
 ### gemma4
 ```sh evaluate
 app ai/services openrouter
-ANTHROPIC_MODEL="google/gemma-4-31b-it:free"
+ANTHROPIC_MODEL="google/gemma-4-26b-a4b-it:free"
 p ${CLAUDE_PROXY}
 app ${APPNAME} run
 ```
 
-### deepseek
+### nemotron
 ```sh evaluate
-#app ai/services deepseek
 app ai/services openrouter
-ANTHROPIC_MODEL="deepseek/deepseek-v4-pro"
+ANTHROPIC_MODEL="nvidia/nemotron-3-super-120b-a12b:free"
+p ${CLAUDE_PROXY}
+app ${APPNAME} run
+```
+
+### `deepseek-pro`
+```sh evaluate
+app ai/services deepseek
+ANTHROPIC_MODEL="deepseek-v4-pro"
+#app ai/services openrouter
+#ANTHROPIC_MODEL="deepseek/deepseek-v4-pro"
+app ${APPNAME} run
+```
+
+### `deepseek-flash`
+```sh evaluate
+app ai/services deepseek
+ANTHROPIC_MODEL="deepseek-v4-flash"
+#app ai/services openrouter
+#ANTHROPIC_MODEL="deepseek/deepseek-v4-flash"
 app ${APPNAME} run
 ```
 

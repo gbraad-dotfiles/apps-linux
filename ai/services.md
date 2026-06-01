@@ -31,6 +31,7 @@ export ANTHROPIC_BASE_URL=${DEEPSEEK_URL}
 if [[ -z "${(P)${(U)DEEPSEEK_KEYNAME}}" ]]; then
   secrets var ${DEEPSEEK_KEYNAME}
 fi
-export ANTHROPIC_API_KEY=${(P)${(U)DEEPSEEK_API_KEY}}
+export ANTHROPIC_AUTH_TOKEN=${(P)${(U)DEEPSEEK_KEYNAME}}
+export ANTHROPIC_API_KEY=""
 ```
 
