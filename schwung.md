@@ -1,5 +1,10 @@
 # Schwung for Move
 
+Schwung brings an ecosystem of community-built synths, effects and tools to your Ableton Move, opening up new sounds and workflows alongside stock firmware.
+
+  - https://schwung.dev/
+
+
 ### install
 ```sh evaluate
 curl -L https://raw.githubusercontent.com/charlesvestal/schwung/main/scripts/install.sh | sh
@@ -9,6 +14,12 @@ curl -L https://raw.githubusercontent.com/charlesvestal/schwung/main/scripts/ins
 ```sh
 xdg-open http://move.local:7700
 ```
+
+### dev
+```sh
+xdg-open http://move.local/development/
+```
+
 
 ### ssh run default
 ```sh evaluate
