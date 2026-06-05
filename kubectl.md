@@ -3,7 +3,7 @@
 ### info
 
 ### install
-```sh
+```sh evaluate
 if command -v kubectl &>/dev/null; then
   echo "kubectl already installed: $(kubectl version --client --short 2>/dev/null || kubectl version --client)"
   return 0
