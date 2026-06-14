@@ -10,7 +10,7 @@ GD_EXEC="${GD_HOME}/Godot_v4.6.3-stable_linux.x86_64"
 GD_ZIP="/tmp/godot.zip"
 ```
 
-### install
+### user-install
 ```sh
 mkdir -p "${GD_HOME}"
 curl -L "$GD_URL" -o "$GD_ZIP"
@@ -18,15 +18,20 @@ unzip -o "$GD_ZIP" -d "${GD_HOME}"
 rm "$GD_ZIP"
 ```
 
-### check
+### user-check
 ```sh
 [ -x "${GD_EXEC}" ]
 ```
 
-### default run alias
+### user-run
 ```sh
-if ! app ${APPNAME} check; then
-  app ${APPNAME} install
-fi
 ${GD_EXEC}
+```
+
+### default alias run run-desktop
+```sh
+if ! app ${APPNAME} check user; then
+  app ${APPNAME} install user
+fi
+app ${APPNAME} run user
 ```
