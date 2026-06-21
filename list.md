@@ -64,7 +64,7 @@ app list aliases
 ```sh
 cd ${APPS_PATH}
 git remote remove origin
-git remote add origin git@github.com:gbraad-dotfiles/applications
+git remote add origin git@github.com:gbraad-dotfiles/apps-linux
 git fetch
 git branch --set-upstream-to=origin/main main
 cd - > /dev/null
