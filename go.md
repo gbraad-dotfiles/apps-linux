@@ -78,6 +78,19 @@ fi
 devenv ${GO_NAME} usercmd "cd ${PROJECT_PATH} && go build ./..."
 ```
 
+### make
+```sh
+devenv ${GO_FROM} ephemral -c "cd ${PROJECT_PATH} && make"
+```
+
+### reuse-make
+```sh
+if ! devenv ${GO_NAME} exists; then
+  devenv ${GO_NAME} from ${GO_FROM}
+fi
+devenv ${GO_NAME} usercmd "cd ${PROJECT_PATH} && make"
+```
+
 ### default alias run
 ```sh
 app ${APPNAME} build

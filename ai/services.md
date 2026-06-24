@@ -35,3 +35,8 @@ export ANTHROPIC_AUTH_TOKEN=${(P)${(U)DEEPSEEK_KEYNAME}}
 export ANTHROPIC_API_KEY=""
 ```
 
+### default alias
+```sh
+echo "This commands needs ro run with an option"
+```
+
