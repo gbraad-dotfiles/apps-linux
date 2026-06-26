@@ -3,7 +3,7 @@
 
 ### vars
 ```sh
-DUCTTAPE_VERSION="v0.8"
+DUCTTAPE_VERSION="v0.9"
 DUCTTAPE_DOWNLOAD_BASEURL="https://github.com/ducttape-infra/ducttape/releases/download/${DUCTTAPE_VERSION}"
 ``
 
