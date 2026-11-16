@@ -8,6 +8,6 @@ sudo dnf install -y node nodejs-npm
 ```
 
 ### debian-install ubuntu-install apt-install
-```sh
-sudo apt install nodejs npm
+```sh evaluate
+sudo apt install -y nodejs npm
 ```
